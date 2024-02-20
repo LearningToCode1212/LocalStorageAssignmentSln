@@ -2,11 +2,28 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LocalStorageAssignment.LoginPage"
-             Title="LoginPage">
-    <VerticalStackLayout>
+             Title="local Storage Assignment">
+    <StackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Welcome to Login Page!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
+        
+        <Label Text="Username"></Label>
+        <Entry x:Name="userNAME" Text="{Binding Username}"></Entry>
+        <Label Text="Passward"></Label>
+        <Entry x:Name="passWORD" Text="{Binding Username}"></Entry>
+        <Label Text="Email"></Label>
+        <Entry x:Name="eMAIL" Text="{Binding Email}"></Entry>
+        <Label x:Name="Error_message"></Label>
+
+        <Button Text="Save" Clicked="Button_Clicked"></Button>
+        <Button Text="Load" Clicked="Button_Clicked_1"></Button>
+
+        <StackLayout>
+            <Label x:Name="username2"></Label>
+            <Label x:Name="password2"></Label>
+            <Label x:Name="email2"></Label>
+        </StackLayout>
+    </StackLayout>
 </ContentPage>
