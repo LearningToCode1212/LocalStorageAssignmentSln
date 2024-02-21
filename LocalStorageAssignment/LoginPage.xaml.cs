@@ -11,9 +11,56 @@ public partial class LoginPage : ContentPage
 
     public LoginPage()
 	{
-		InitializeComponent();
-	}
-  
+        InitializeComponent();
+        BindingContext = this;
+        LoadLoginInformation();
+    }
+
+    private string loadder;
+
+    public string Loader
+    {
+        get { return loadder; }
+        set 
+        { 
+            loadder = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string displayusername;
+
+    public string DisplayUsername
+    {
+        get { return displayusername; }
+        set { 
+            displayusername = value; 
+            OnPropertyChanged();
+        }
+    }
+
+    private string displaypassword;
+
+    public string DisplayPassword
+    {
+        get { return displaypassword; }
+        set { 
+            displaypassword = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string displayemail;
+
+    public string DisplayEmail
+    {
+        get { return displayemail; }
+        set { 
+            displayemail = value;
+            OnPropertyChanged();
+        }
+    }
+
     class LoginInformation
     {
         public string Username { get; set; }
@@ -33,37 +80,45 @@ public partial class LoginPage : ContentPage
     private void Button_Clicked(object sender, EventArgs e)
     {
         // some text data first
-        string usernameTest = userNAME.Text;
+        savedMessage.Text = "Login Info Saved!";
+        string usernameTest = DisplayUsername;
         string passwordTest = passWORD.Text;
         string emailTest = eMAIL.Text;
+        DisplayUsername = "";
+        DisplayPassword = "";
+        DisplayEmail = "";
 
         LoginInformation loginInfo = new LoginInformation(usernameTest, passwordTest, emailTest);
 
         string jsonString = JsonSerializer.Serialize(loginInfo);
 
-        // Breaks here
         File.WriteAllText(filePath, jsonString);
         Console.WriteLine("Login information saved to local storage.");
     }
 
 
-    // Load Button
-    private void Button_Clicked_1(object sender, EventArgs e)
+    // Load Method
+    private void LoadLoginInformation()
     {
+        savedMessage.Text = "";
         if (File.Exists(filePath))
         {
             string jsonData = File.ReadAllText(filePath);
-            //StreamReader jsonData = new StreamReader(filePath);
 
             LoginInformation loginInfo = JsonSerializer.Deserialize<LoginInformation>(jsonData);
 
-            username2.Text = loginInfo.Username;
-            password2.Text = loginInfo.Password;
-            email2.Text = loginInfo.Email;
+            DisplayUsername = loginInfo.Username;
+            DisplayPassword = loginInfo.Password;
+            DisplayEmail = loginInfo.Email;
         }
         else
         {
             Error_message.Text = "Login information file not found.";
         }
+    }
+    // Load Button
+    private void Button_Clicked_1(object sender, EventArgs e)
+    {
+        LoadLoginInformation();
     }
 }

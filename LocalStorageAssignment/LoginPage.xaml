@@ -2,28 +2,26 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LocalStorageAssignment.LoginPage"
-             Title="local Storage Assignment">
+             Title="Local Storage Assignment">
     <StackLayout>
         <Label 
             Text="Welcome to Login Page!"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center" Margin="0, 20, 0, 25" FontAttributes="Bold"/>
+        <Label x:Name="savedMessage" TextColor="Green" Margin="0, 10, 0, 10" HorizontalOptions="Center" VerticalOptions="Center"></Label>
         
-        <Label Text="Username"></Label>
-        <Entry x:Name="userNAME" Text="{Binding Username}"></Entry>
-        <Label Text="Passward"></Label>
-        <Entry x:Name="passWORD" Text="{Binding Username}"></Entry>
-        <Label Text="Email"></Label>
-        <Entry x:Name="eMAIL" Text="{Binding Email}"></Entry>
-        <Label x:Name="Error_message"></Label>
+       <!-- Login UI -->
+        <Label Text="Username: " Margin="10, 0, 0 ,0" FontAttributes="Bold" FontSize="17"></Label>
+        <Entry Text="{Binding DisplayUsername}" Margin="7, 0, 0 ,0"></Entry>
+        <Label Text="Passward: " Margin="10, 0, 0 ,0" FontAttributes="Bold" FontSize="17"></Label>
+        <Entry x:Name="passWORD" Text="{Binding DisplayPassword}" Margin="7, 0, 0 ,0"></Entry>
+        <Label Text="Email: " Margin="10, 0, 0 ,0" FontAttributes="Bold" FontSize="17"></Label>
+        <Entry x:Name="eMAIL" Text="{Binding DisplayEmail}" Margin="7, 0, 0 ,0"></Entry>
+        <Label x:Name="Error_message" Margin="170, 20, 0 ,20" TextColor="Red"></Label>
 
-        <Button Text="Save" Clicked="Button_Clicked"></Button>
-        <Button Text="Load" Clicked="Button_Clicked_1"></Button>
-
-        <StackLayout>
-            <Label x:Name="username2"></Label>
-            <Label x:Name="password2"></Label>
-            <Label x:Name="email2"></Label>
+        <StackLayout Orientation="Horizontal" Spacing="25" HorizontalOptions="Center">
+            <Button Text="Save" Clicked="Button_Clicked" WidthRequest="120" HeightRequest="50" BackgroundColor="Black"></Button>
+            <Button Text="Load" Clicked="Button_Clicked_1" WidthRequest="120" HeightRequest="50" Background="Black"></Button>
         </StackLayout>
     </StackLayout>
 </ContentPage>
