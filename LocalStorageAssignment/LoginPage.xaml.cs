@@ -14,6 +14,7 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
         BindingContext = this;
         LoadLoginInformation();
+        ChooseImageButton.Clicked += OnChooseImageButtonClicked;
     }
 
     private string loadder;
@@ -61,6 +62,18 @@ public partial class LoginPage : ContentPage
         }
     }
 
+    private string displayimage;
+
+    public string DisplayImage
+    {
+        get { return displayimage; }
+        set { 
+            displayimage = value; 
+            OnPropertyChanged();
+        }
+    }
+
+
     class LoginInformation
     {
         public string Username { get; set; }
@@ -76,14 +89,47 @@ public partial class LoginPage : ContentPage
         }
     }
 
+    // Image Button
+    private async void OnChooseImageButtonClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            var result = await Permissions.RequestAsync<Permissions.Media>();
+
+            if (result == PermissionStatus.Granted)
+            {
+                var file = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Select Image"
+                });
+
+                if (file != null)
+                {
+                    var stream = await file.OpenReadAsync();
+                    ChosenImage.Source = ImageSource.FromStream(() => stream);
+                    // Tryy to save the picture and display it on load button
+                }
+            }
+            else
+            {
+                // Permission denied
+                await DisplayAlert("Permission Denied", "Permission Required.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+
     // Save Button
     private void Button_Clicked(object sender, EventArgs e)
     {
-        // some text data first
         savedMessage.Text = "Login Info Saved!";
         string usernameTest = DisplayUsername;
-        string passwordTest = passWORD.Text;
-        string emailTest = eMAIL.Text;
+        string passwordTest = DisplayPassword;
+        string emailTest = DisplayEmail;
         DisplayUsername = "";
         DisplayPassword = "";
         DisplayEmail = "";
@@ -91,6 +137,11 @@ public partial class LoginPage : ContentPage
         LoginInformation loginInfo = new LoginInformation(usernameTest, passwordTest, emailTest);
 
         string jsonString = JsonSerializer.Serialize(loginInfo);
+
+        if (string.IsNullOrEmpty(DisplayUsername))
+        {
+            DisplayAlert("Information Required", "Fill in all required information", "Ok");
+        }
 
         File.WriteAllText(filePath, jsonString);
         Console.WriteLine("Login information saved to local storage.");
